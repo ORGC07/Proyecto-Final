@@ -1,0 +1,1436 @@
+Principal.Java:
+package App;
+
+public class Principal {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		Frame1 frame = new Frame1();
+		frame.setVisible(true);
+	}
+
+}
+Frame 1:
+package App;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.Window.Type;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
+
+public class Frame1 extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField txtNombre;
+	private JTextField txtPassword;
+
+	/**
+	 * Create the frame.
+	 */
+	public Frame1() {
+		setResizable(false);
+		setType(Type.UTILITY);
+		setBounds(100, 100, 370, 370);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(Frame1.class.getResource("/imagenes/user.png")));
+		lblNewLabel_1.setBounds(102, 139, 24, 24);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(Frame1.class.getResource("/imagenes/lock.png")));
+		lblNewLabel_2.setBounds(102, 179, 24, 33);
+		contentPane.add(lblNewLabel_2);
+		
+		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 
+				try {
+					int resultado = 0;
+                    Class.forName("com.mysql.jdbc.Driver");
+                    java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+                    Statement sm = (Statement) conexion.createStatement();
+                    ResultSet resultset = sm.executeQuery("SELECT Nom_Usuario,Pass_Usuario FROM usuario WHERE Nom_Usuario = '"+ txtNombre.getText()+"'AND Pass_Usuario = '"+txtPassword.getText()+"'");
+
+                    if(resultset.next()) {
+                    	resultado = 1;
+                    	if (resultado==1) {
+                    		
+                    		Frame2 frame = new Frame2();
+        					frame.setVisible(true);
+                    	}
+                    	
+                       
+                    }else {
+                        JOptionPane.showMessageDialog(btnAceptar, "Usuario No encontrado");
+                        
+                    }
+
+                    conexion.close();
+
+                }catch (ClassNotFoundException a1) {
+                    a1.printStackTrace();
+
+                }catch (SQLException a1) {
+                    a1.printStackTrace();
+                }
+			
+					
+			}
+		});
+		btnAceptar.setBounds(82, 248, 89, 23);
+		contentPane.add(btnAceptar);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnCancelar.setBounds(181, 248, 89, 23);
+		contentPane.add(btnCancelar);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(Frame1.class.getResource("/imagenes/profile (1).png")));
+		lblNewLabel.setBounds(139, 39, 73, 74);
+		contentPane.add(lblNewLabel);
+		
+		txtNombre = new JTextField();
+		txtNombre.setBounds(136, 143, 89, 20);
+		contentPane.add(txtNombre);
+		txtNombre.setColumns(10);
+		
+		txtPassword = new JTextField();
+		txtPassword.setBounds(136, 192, 89, 20);
+		contentPane.add(txtPassword);
+		txtPassword.setColumns(10);
+	}
+
+
+	}
+Frame 2:
+package App;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+
+public class Frame2 extends JFrame {
+
+	private JPanel contentPane;
+
+	
+	/**
+	 * Create the frame.
+	 */
+	public Frame2() {
+		setResizable(false);
+		setBounds(100, 100, 370, 370);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnNewButton = new JButton("Catalogo");
+		btnNewButton.setIcon(new ImageIcon(Frame2.class.getResource("/imagenes/catalogo.png")));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VENCatalogo frame = new VENCatalogo();
+				frame.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(92, 75, 184, 41);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Cerrar sesi\u00F3n");
+		btnNewButton_1.setIcon(new ImageIcon(Frame2.class.getResource("/imagenes/opcion-de-marcha (1).png")));
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Frame2.this.dispose();
+	            setVisible(false);
+			}
+		});
+		btnNewButton_1.setBounds(92, 200, 184, 41);
+		contentPane.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("   Mi Carrito");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VENCarrito frame = new VENCarrito();
+				frame.setVisible(true);
+			}
+		});
+		btnNewButton_2.setIcon(new ImageIcon(Frame2.class.getResource("/imagenes/agregar-carrito.png")));
+		btnNewButton_2.setBounds(92, 137, 184, 41);
+		contentPane.add(btnNewButton_2);
+	}
+}
+VenCatalogo:
+package App;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class VENCatalogo extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Create the frame.
+	 */
+	public VENCatalogo() {
+		setTitle("Catalogo");
+		setResizable(false);
+		setBounds(100, 100, 370, 370);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnNewButton = new JButton("Cemento");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VenCemento frame = new VenCemento();
+				frame.setVisible(true);
+			}
+		});
+		btnNewButton.setBounds(24, 26, 121, 87);
+		contentPane.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Varilla");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VenVarilla frame = new VenVarilla();
+				frame.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(218, 26, 121, 87);
+		contentPane.add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("Mortero");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VenMortero frame = new VenMortero();
+				frame.setVisible(true);
+			}
+		});
+		btnNewButton_2.setBounds(24, 163, 121, 85);
+		contentPane.add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("Block /Yeso");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VenBlock frame = new VenBlock();
+				frame.setVisible(true);
+			}
+		});
+		btnNewButton_3.setBounds(218, 163, 121, 85);
+		contentPane.add(btnNewButton_3);
+		
+		JButton btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VENCatalogo.this.dispose();
+		            setVisible(false);
+			}
+		});
+		btnRegresar.setBounds(106, 281, 147, 33);
+		contentPane.add(btnRegresar);
+	}
+}
+
+VenCarrito:
+package App;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.jdbc.Statement;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.JTextPane;
+import javax.swing.JRadioButton;
+import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+
+@SuppressWarnings("unused")
+public class VENCarrito extends JFrame {
+
+    private JPanel contentPane;
+   
+
+    private static JTable table;
+    
+    public static void AddRow(Object[] dataRow) {
+
+        DefaultTableModel model=(DefaultTableModel)table.getModel();
+        model.addRow(dataRow);
+    }
+    
+    public VENCarrito() {
+    	setResizable(false);
+        setTitle("Productos");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 333, 400);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(10, 118, 297, 232);
+        contentPane.add(scrollPane);
+
+        table = new JTable();
+        table.setModel(new DefaultTableModel(
+        	new Object[][] {
+        	},
+        	new String[] {
+        		"ID_Producto", "Nombre", "Precio"
+        	}
+        ) {
+        	Class[] columnTypes = new Class[] {
+        		Object.class, String.class, Object.class
+        	};
+        	public Class getColumnClass(int columnIndex) {
+        		return columnTypes[columnIndex];
+        	}
+        });
+        scrollPane.setViewportView(table);
+
+        JLabel lblNewLabel = new JLabel("Mi Carrito");
+        lblNewLabel.setBounds(10, 11, 102, 81);
+        lblNewLabel.setIcon(new ImageIcon(VENCarrito.class.getResource("/imagenes/agregar-carrito.png")));
+        contentPane.add(lblNewLabel);
+        
+        JButton btnRegresar = new JButton("Regresar");
+        btnRegresar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		VENCarrito.this.dispose();
+	            setVisible(false);
+        	}
+        });
+        btnRegresar.setBounds(170, 35, 147, 33);
+        contentPane.add(btnRegresar);
+        
+        try {
+        	String ID,Nombre,Precio;
+            Class.forName("com.mysql.jdbc.Driver");
+            java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+
+            Statement sm = (Statement) conexion.createStatement();
+
+            String DB = "SELECT * FROM productos ";
+            
+            ResultSet result=sm.executeQuery(DB);
+            
+            
+           
+            while(result.next()){
+            	
+            VENCarrito.AddRow(new Object[] {
+
+               ID = result.getString("ID_Producto"),
+               Nombre = result.getString("Nombre_Producto"),
+               Precio = result.getString("Precio_Producto"),
+                   
+           });
+            }
+            
+            conexion.close();
+
+        }catch (ClassNotFoundException a1) {
+            a1.printStackTrace();
+
+        }catch (SQLException a1) {
+            a1.printStackTrace();
+        }
+
+
+         
+        
+    }
+}
+
+VenCemento:
+package App;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.JSeparator;
+import javax.swing.JButton;
+import javax.swing.JSpinner;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import java.awt.event.ActionListener;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+
+import com.mysql.jdbc.Statement;
+
+import javax.swing.event.ChangeEvent;
+
+public class VenCemento extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Create the frame.
+	 */
+	public VenCemento() {
+		setResizable(false);
+		setBounds(100, 100, 370, 400);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Cemento Blanco", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(10, 0, 158, 316);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		;
+		
+		
+		
+		JLabel lblCantidad = new JLabel("Cantidad:");
+		lblCantidad.setBounds(14, 246, 78, 14);
+		panel.add(lblCantidad);
+		
+		JTextPane txtpnElCementoBlanco = new JTextPane();
+		txtpnElCementoBlanco.setText("El cemento blanco es un tipo de cemento portland de un color gris muy claro,\u200B empleado tanto en piezas prefabricadas como en acabados de suelos y alba\u00F1iler\u00EDa en general.");
+		txtpnElCementoBlanco.setBounds(14, 23, 134, 175);
+		panel.add(txtpnElCementoBlanco);
+		
+		JLabel lblCBLANCO = new JLabel("Precio: 600");
+		lblCBLANCO.setBounds(14, 207, 78, 28);
+		panel.add(lblCBLANCO);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(null, "Cemento Gris", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBounds(178, 0, 176, 316);
+		contentPane.add(panel_1);
+		panel_1.setLayout(null);
+		
+		
+		
+		JLabel lblCantidad_1 = new JLabel("Cantidad:");
+		lblCantidad_1.setBounds(10, 246, 78, 14);
+		panel_1.add(lblCantidad_1);
+		
+		JTextPane txtpnElCementoGris = new JTextPane();
+		txtpnElCementoGris.setText("El cemento gris o Portland es un compuesto de minerales que act\u00FAa como ligante de materiales.");
+		txtpnElCementoGris.setBounds(10, 25, 156, 175);
+		panel_1.add(txtpnElCementoGris);
+		
+		JLabel lblCGRIS = new JLabel("  Precio: 405");
+		lblCGRIS.setBounds(20, 199, 96, 33);
+		panel_1.add(lblCGRIS);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(20, 263, 339, 8);
+		contentPane.add(separator);
+		
+		JButton btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				  VenCemento.this.dispose();
+		            setVisible(false);
+
+			}
+		});
+		btnRegresar.setBounds(102, 327, 147, 33);
+		contentPane.add(btnRegresar);
+		
+	
+	
+		
+		JSpinner C1GRIS = new JSpinner();
+		C1GRIS.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int Num2= 600;
+	            int sp2 = (int) C1GRIS.getValue();
+	            int Res2=600*sp2;
+
+	            String resu2 = String.valueOf(Res2);
+
+	            lblCGRIS.setText("Precio: "+ resu2);
+			}
+		});
+		C1GRIS.setBounds(82, 243, 46, 20);
+		panel_1.add(C1GRIS);
+		
+		
+		
+		
+
+		
+	JSpinner C2BLANCO = new JSpinner();
+	C2BLANCO.addChangeListener(new ChangeListener() {
+		public void stateChanged(ChangeEvent e) {
+			
+			int Num1= 600;
+            int sp = (int) C2BLANCO.getValue();
+            int Res=600*sp;
+
+            String resu = String.valueOf(Res);
+
+            lblCBLANCO.setText("Precio: "+ resu);
+		}
+	});
+	C2BLANCO.setBounds(88, 240, 44, 20);
+	panel.add(C2BLANCO);
+	
+	JButton btnBlanco = new JButton("Agregar al Carrito");
+	btnBlanco.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			int Num1= 600;
+		    int sp = (int) C2BLANCO.getValue();
+		    int Res=600*sp;
+		    String Nombre="Cemento Blanco";
+		    
+			try {
+                Class.forName("com.mysql.jdbc.Driver");
+                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+
+                Statement sm = (Statement) conexion.createStatement();
+
+                String DB = "INSERT INTO productos(Nombre_Producto,Precio_Producto)"
+                		+ " VALUES('"+Nombre+"','"+Res+"') ";
+
+                sm.executeUpdate(DB);
+                conexion.close();
+
+            }catch (ClassNotFoundException a1) {
+                a1.printStackTrace();
+
+            }catch (SQLException a1) {
+                a1.printStackTrace();
+            }
+
+            JOptionPane.showMessageDialog(btnBlanco, "Producto guardado en el Carrito");
+
+			
+		}
+	});
+	btnBlanco.setBounds(10, 282, 138, 23);
+	panel.add(btnBlanco);
+	
+	JButton btnGris = new JButton("Agregar al Carrito");
+	btnGris.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			int Num2= 600;
+            int sp2 = (int) C1GRIS.getValue();
+            int Res2=600*sp2;
+		   String Nombre="Cemento Gris";
+			
+			try {
+                Class.forName("com.mysql.jdbc.Driver");
+                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+
+                Statement sm = (Statement) conexion.createStatement();
+
+                String DB = "INSERT INTO productos(Nombre_Producto,Precio_Producto)"
+                		+ " VALUES('"+Nombre+"','"+Res2+"') ";
+
+                sm.executeUpdate(DB);
+                conexion.close();
+
+            }catch (ClassNotFoundException a1) {
+                a1.printStackTrace();
+
+            }catch (SQLException a1) {
+                a1.printStackTrace();
+            }
+
+            JOptionPane.showMessageDialog(btnGris, "Producto guardado en el Carrito");
+
+             
+			
+		}
+	});
+	btnGris.setBounds(10, 282, 156, 23);
+	panel_1.add(btnGris);
+	
+	}
+	
+	
+	
+	protected static void HIDE_ON_CLOSE(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+}
+
+VenVarilla:
+package App;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import javax.swing.JComboBox;
+import javax.swing.JSpinner;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+
+import com.mysql.jdbc.Statement;
+
+import javax.swing.event.ChangeEvent;
+
+public class VenVarilla extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VenVarilla frame = new VenVarilla();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public VenVarilla() {
+		setBounds(100, 100, 549, 337);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Grado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(10, 11, 253, 87);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Grado 40");
+		rdbtnNewRadioButton.setBounds(20, 37, 109, 23);
+		panel.add(rdbtnNewRadioButton);
+		
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Grado 60");
+		rdbtnNewRadioButton_1.setBounds(131, 37, 109, 23);
+		panel.add(rdbtnNewRadioButton_1);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Textura", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBounds(10, 109, 253, 87);
+		contentPane.add(panel_1);
+		
+		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Corrugado");
+		rdbtnNewRadioButton_2.setBounds(22, 37, 109, 23);
+		panel_1.add(rdbtnNewRadioButton_2);
+		
+		JRadioButton rdbtnNewRadioButton_1_1 = new JRadioButton("Liso");
+		rdbtnNewRadioButton_1_1.setBounds(133, 37, 109, 23);
+		panel_1.add(rdbtnNewRadioButton_1_1);
+		
+		JPanel panel_1_1 = new JPanel();
+		panel_1_1.setLayout(null);
+		panel_1_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Diametro", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1_1.setBounds(273, 11, 253, 87);
+		contentPane.add(panel_1_1);
+		
+		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("3/8 ");
+		rdbtnNewRadioButton_3.setBounds(6, 18, 109, 23);
+		panel_1_1.add(rdbtnNewRadioButton_3);
+		
+		JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("1/2 pulgada");
+		rdbtnNewRadioButton_4.setBounds(6, 44, 109, 23);
+		panel_1_1.add(rdbtnNewRadioButton_4);
+		
+		JRadioButton rdbtnNewRadioButton_5 = new JRadioButton("1 pulgada");
+		rdbtnNewRadioButton_5.setBounds(117, 44, 109, 23);
+		panel_1_1.add(rdbtnNewRadioButton_5);
+		
+		JRadioButton rdbtnNewRadioButton_6 = new JRadioButton("3/4");
+		rdbtnNewRadioButton_6.setBounds(117, 18, 109, 23);
+		panel_1_1.add(rdbtnNewRadioButton_6);
+		
+		JPanel panel_1_1_1 = new JPanel();
+		panel_1_1_1.setLayout(null);
+		panel_1_1_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Longitud", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1_1_1.setBounds(273, 109, 253, 87);
+		contentPane.add(panel_1_1_1);
+		
+		JRadioButton rdbtnNewRadioButton_3_1 = new JRadioButton("20 pies");
+		rdbtnNewRadioButton_3_1.setBounds(6, 18, 109, 23);
+		panel_1_1_1.add(rdbtnNewRadioButton_3_1);
+		
+		JRadioButton rdbtnNewRadioButton_4_1 = new JRadioButton("30 pies");
+		rdbtnNewRadioButton_4_1.setBounds(6, 44, 109, 23);
+		panel_1_1_1.add(rdbtnNewRadioButton_4_1);
+		
+		JRadioButton rdbtnNewRadioButton_5_1 = new JRadioButton("40 pies");
+		rdbtnNewRadioButton_5_1.setBounds(117, 44, 109, 23);
+		panel_1_1_1.add(rdbtnNewRadioButton_5_1);
+		
+		JRadioButton rdbtnNewRadioButton_6_1 = new JRadioButton("25 pies");
+		rdbtnNewRadioButton_6_1.setBounds(117, 18, 109, 23);
+		panel_1_1_1.add(rdbtnNewRadioButton_6_1);
+		
+		
+		
+		JLabel lblNewLabel = new JLabel("Cantidad");
+		lblNewLabel.setBounds(10, 234, 78, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblVarilla = new JLabel("Precio por atado: 66,500");
+		lblVarilla.setBounds(141, 231, 141, 20);
+		contentPane.add(lblVarilla);
+		
+		
+		
+		JButton btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 VenVarilla.this.dispose();
+		            setVisible(false);
+
+			}
+		});
+		btnRegresar.setBounds(350, 254, 147, 33);
+		contentPane.add(btnRegresar);
+		
+		JSpinner SPINvarilla = new JSpinner();
+		SPINvarilla.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int Num= 66500;
+	            int sp = (int) SPINvarilla.getValue();
+	            int Res=66500*sp;
+
+	            String resu = String.valueOf(Res);
+
+	            lblVarilla.setText("Precio: "+ resu);
+			}
+		});
+		SPINvarilla.setBounds(76, 231, 38, 20);
+		contentPane.add(SPINvarilla);
+		
+		JButton btnCarritoV = new JButton("Agregar al Carrito");
+		btnCarritoV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String Nombre = "Varilla";
+				
+				int Num= 66500;
+	            int sp = (int) SPINvarilla.getValue();
+	            int Res=66500*sp;
+				try {
+	                Class.forName("com.mysql.jdbc.Driver");
+	                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+
+	                Statement sm = (Statement) conexion.createStatement();
+
+	                String DB = "INSERT INTO productos(Nombre_Producto,Precio_Producto)"
+	                		+ " VALUES('"+Nombre+"','"+Res+"') ";
+
+	                sm.executeUpdate(DB);
+	                conexion.close();
+
+	            }catch (ClassNotFoundException a1) {
+	                a1.printStackTrace();
+
+	            }catch (SQLException a1) {
+	                a1.printStackTrace();
+	            }
+
+	            JOptionPane.showMessageDialog(btnCarritoV, "Producto guardado en el Carrito");
+				
+				
+			}
+		});
+		btnCarritoV.setBounds(350, 207, 147, 33);
+		contentPane.add(btnCarritoV);
+		
+	}
+}
+
+VenBlock:
+package App;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JSeparator;
+import javax.swing.border.TitledBorder;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JSpinner;
+import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.event.ChangeListener;
+
+import com.mysql.jdbc.Statement;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+
+public class VenBlock extends JFrame {
+
+	private JPanel contentPane;
+	private JSpinner SPINblock4;
+
+
+	/**
+	 * Create the frame.
+	 */
+	public VenBlock() {
+		setResizable(false);
+		setBounds(100, 100, 370, 430);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(10, 5, 10, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(null, "Block", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBounds(10, 11, 344, 227);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JSpinner SPINblock4 = new JSpinner();
+		SPINblock4.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int Num= 40;
+	            int sp = (int) SPINblock4.getValue();
+	            int Res=40*sp;
+
+	            String resu = String.valueOf(Res);
+	            
+	          
+			
+			}
+		});
+		SPINblock4.setBounds(282, 55, 30, 20);
+		panel.add(SPINblock4);
+		
+		JLabel lblCantidad = new JLabel(" Cantidad:");
+		lblCantidad.setBounds(180, 49, 77, 33);
+		panel.add(lblCantidad);
+		
+		JLabel lblBlock6 = new JLabel("Tama\u00F1o:6  Precio:40");
+		lblBlock6.setBounds(6, 81, 135, 33);
+		panel.add(lblBlock6);
+		
+		JLabel lblBlock8 = new JLabel("  Tama\u00F1o:8  Precio:45");
+		lblBlock8.setBounds(6, 155, 135, 33);
+		panel.add(lblBlock8);
+		
+		JLabel lblCantidad_1 = new JLabel(" Cantidad:");
+		lblCantidad_1.setBounds(180, 111, 77, 33);
+		panel.add(lblCantidad_1);
+		
+		JLabel lblCantidad_2 = new JLabel(" Cantidad:");
+		lblCantidad_2.setBounds(180, 183, 77, 33);
+		panel.add(lblCantidad_2);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(20, 108, 344, 2);
+		contentPane.add(separator);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(20, 223, 344, 2);
+		contentPane.add(separator_1);
+		
+		
+		JSpinner SPINblock6 = new JSpinner();
+		SPINblock6.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int Num= 40;
+	            int sp = (int) SPINblock6.getValue();
+	            int Res=40*sp;
+
+	            String resu = String.valueOf(Res);
+
+	            lblBlock6.setText("Precio: "+ resu);
+			}
+		});
+		SPINblock6.setBounds(282, 117, 30, 20);
+		panel.add(SPINblock6);
+		
+		
+		JSpinner SPINblock8 = new JSpinner();
+		SPINblock8.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int Num= 45;
+	            int sp = (int) SPINblock8.getValue();
+	            int Res=45*sp;
+
+	            String resu = String.valueOf(Res);
+
+	            lblBlock8.setText("Precio: "+ resu);
+			}
+		});
+		SPINblock8.setBounds(282, 189, 30, 20);
+		panel.add(SPINblock8);
+		
+		JButton btnBLOCK8 = new JButton("Agregar al Carrito");
+		btnBLOCK8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int Num2= 45;
+	            int sp2 = (int) SPINblock8.getValue();
+	            int Res2=45*sp2;
+			   String Nombre="BLOCK 8";
+				
+				try {
+	                Class.forName("com.mysql.jdbc.Driver");
+	                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+
+	                Statement sm = (Statement) conexion.createStatement();
+
+	                String DB = "INSERT INTO productos(Nombre_Producto,Precio_Producto)"
+	                		+ " VALUES('"+Nombre+"','"+Res2+"') ";
+
+	                sm.executeUpdate(DB);
+	                conexion.close();
+
+	            }catch (ClassNotFoundException a1) {
+	                a1.printStackTrace();
+
+	            }catch (SQLException a1) {
+	                a1.printStackTrace();
+	            }
+
+	            JOptionPane.showMessageDialog(btnBLOCK8, "Producto guardado en el Carrito");
+
+	             
+				
+			}
+		});
+		btnBLOCK8.setBounds(6, 183, 137, 33);
+		panel.add(btnBLOCK8);
+		
+		JButton btnBLOCK6 = new JButton("Agregar al Carrito");
+		btnBLOCK6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int Num2= 40;
+	            int sp2 = (int) SPINblock6.getValue();
+	            int Res2=40*sp2;
+			   String Nombre="BLOCK 6";
+				
+				try {
+	                Class.forName("com.mysql.jdbc.Driver");
+	                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+
+	                Statement sm = (Statement) conexion.createStatement();
+
+	                String DB = "INSERT INTO productos(Nombre_Producto,Precio_Producto)"
+	                		+ " VALUES('"+Nombre+"','"+Res2+"') ";
+
+	                sm.executeUpdate(DB);
+	                conexion.close();
+
+	            }catch (ClassNotFoundException a1) {
+	                a1.printStackTrace();
+
+	            }catch (SQLException a1) {
+	                a1.printStackTrace();
+	            }
+
+	            JOptionPane.showMessageDialog(btnBLOCK6, "Producto guardado en el Carrito");
+
+	             
+				
+			}
+		});
+		btnBLOCK6.setBounds(6, 111, 137, 33);
+		panel.add(btnBLOCK6);
+		
+		JButton btnBLOCK4 = new JButton("Agregar al Carrito");
+		btnBLOCK4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int Num2= 35;
+	            int sp2 = (int) SPINblock4.getValue();
+	            int Res2=35*sp2;
+			   String Nombre="BLOCK 4";
+				
+				try {
+	                Class.forName("com.mysql.jdbc.Driver");
+	                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+
+	                Statement sm = (Statement) conexion.createStatement();
+
+	                String DB = "INSERT INTO productos(Nombre_Producto,Precio_Producto)"
+	                		+ " VALUES('"+Nombre+"','"+Res2+"') ";
+
+	                sm.executeUpdate(DB);
+	                conexion.close();
+
+	            }catch (ClassNotFoundException a1) {
+	                a1.printStackTrace();
+
+	            }catch (SQLException a1) {
+	                a1.printStackTrace();
+	            }
+
+	            JOptionPane.showMessageDialog(btnBLOCK4, "Producto guardado en el Carrito");
+
+	             
+				
+			}
+		});
+		btnBLOCK4.setBounds(6, 51, 137, 33);
+		panel.add(btnBLOCK4);
+		
+		JLabel lblBlock4 = new JLabel("Tama\u00F1o:4  Precio:35");
+		lblBlock4.setBounds(6, 26, 135, 33);
+		panel.add(lblBlock4);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Yeso Cocido", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBounds(10, 249, 344, 91);
+		contentPane.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblCantidad_3 = new JLabel(" Cantidad:");
+		lblCantidad_3.setBounds(175, 3, 77, 33);
+		panel_1.add(lblCantidad_3);
+		
+		JLabel lblPrecioYeso = new JLabel("  Precio: 260");
+		lblPrecioYeso.setBounds(10, 19, 135, 33);
+		panel_1.add(lblPrecioYeso);
+		
+		JSpinner SPINyeso = new JSpinner();
+		SPINyeso.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int Num= 260;
+	            int sp = (int) SPINyeso.getValue();
+	            int Res=260*sp;
+
+	            String resu = String.valueOf(Res);
+
+	            lblPrecioYeso.setText("Precio: "+ resu);
+			
+			}
+		});
+		SPINyeso.setBounds(283, 16, 30, 20);
+		panel_1.add(SPINyeso);
+		
+		JButton btnYESO = new JButton("Agregar al Carrito");
+		btnYESO.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int Num2= 260;
+	            int sp2 = (int) SPINyeso.getValue();
+	            int Res2=260*sp2;
+			   String Nombre="Yeso Cocido";
+				
+				try {
+	                Class.forName("com.mysql.jdbc.Driver");
+	                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+
+	                Statement sm = (Statement) conexion.createStatement();
+
+	                String DB = "INSERT INTO productos(Nombre_Producto,Precio_Producto)"
+	                		+ " VALUES('"+Nombre+"','"+Res2+"') ";
+
+	                sm.executeUpdate(DB);
+	                conexion.close();
+
+	            }catch (ClassNotFoundException a1) {
+	                a1.printStackTrace();
+
+	            }catch (SQLException a1) {
+	                a1.printStackTrace();
+	            }
+
+	            JOptionPane.showMessageDialog(btnYESO, "Producto guardado en el Carrito");
+
+			}
+		});
+		btnYESO.setBounds(175, 47, 137, 33);
+		panel_1.add(btnYESO);
+		
+		JButton btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VenBlock.this.dispose();
+	            setVisible(false);
+			}
+		});
+		btnRegresar.setBounds(110, 351, 147, 33);
+		contentPane.add(btnRegresar);
+		
+		
+	}
+}
+
+VenMortero:
+package App;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JSeparator;
+import javax.swing.border.TitledBorder;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JSpinner;
+import javax.swing.JRadioButton;
+import java.awt.event.ActionListener;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import javax.swing.border.EtchedBorder;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.event.ChangeListener;
+
+import com.mysql.jdbc.Statement;
+
+import javax.swing.event.ChangeEvent;
+
+public class VenMortero extends JFrame {
+
+	private JPanel contentPane;
+
+
+	/**
+	 * Create the frame.
+	 */
+	public VenMortero() {
+		setTitle("Mortero");
+		setResizable(false);
+		setBounds(100, 100, 380, 380);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(10, 5, 10, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Mortero Grueso", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(10, 11, 344, 86);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Mortero Grueso");
+		rdbtnNewRadioButton.setBounds(6, 17, 109, 23);
+		panel.add(rdbtnNewRadioButton);
+		
+		JLabel lblCantidad_1 = new JLabel("Cantidad:");
+		lblCantidad_1.setBounds(117, 11, 78, 14);
+		panel.add(lblCantidad_1);
+		
+		
+		
+		JLabel lblGrueso1 = new JLabel("  Precio: 270");
+		lblGrueso1.setBounds(205, 12, 129, 33);
+		panel.add(lblGrueso1);
+		
+		JPanel panel_1_1 = new JPanel();
+		panel_1_1.setLayout(null);
+		panel_1_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Mortero Fino", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1_1.setBounds(10, 205, 344, 83);
+		contentPane.add(panel_1_1);
+		
+		JRadioButton rdbtnNewRadioButton_3_1 = new JRadioButton("Mortero Fino");
+		rdbtnNewRadioButton_3_1.setBounds(6, 13, 109, 36);
+		panel_1_1.add(rdbtnNewRadioButton_3_1);
+		
+		JLabel lblCantidad_1_2 = new JLabel("Cantidad:");
+		lblCantidad_1_2.setBounds(123, 13, 92, 14);
+		panel_1_1.add(lblCantidad_1_2);
+		
+		
+		
+		JLabel lblFino1 = new JLabel("  Precio: 330");
+		lblFino1.setBounds(201, 15, 133, 33);
+		panel_1_1.add(lblFino1);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Mortero Normal", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBounds(10, 108, 344, 86);
+		contentPane.add(panel_1);
+		
+		JRadioButton rdbtnMorteroNormal = new JRadioButton("Mortero Normal");
+		rdbtnMorteroNormal.setBounds(6, 17, 109, 23);
+		panel_1.add(rdbtnMorteroNormal);
+		
+		JLabel lblCantidad_1_1 = new JLabel("Cantidad:");
+		lblCantidad_1_1.setBounds(120, 11, 78, 14);
+		panel_1.add(lblCantidad_1_1);
+		
+		
+		
+		JLabel lblNormal1 = new JLabel("  Precio: 300");
+		lblNormal1.setBounds(208, 12, 126, 33);
+		panel_1.add(lblNormal1);
+		
+		JSpinner SPINnormal1 = new JSpinner();
+		SPINnormal1.setBounds(119, 25, 46, 20);
+		panel_1.add(SPINnormal1);
+		
+		JButton btnCarritoM2 = new JButton("Agregar al Carrito");
+		btnCarritoM2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int Num2= 300;
+	            int sp2 = (int) SPINnormal1.getValue();
+	            int Res2=300*sp2;
+			   String Nombre="Mortero Normal";
+				
+				try {
+	                Class.forName("com.mysql.jdbc.Driver");
+	                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+
+	                Statement sm = (Statement) conexion.createStatement();
+
+	                String DB = "INSERT INTO productos(Nombre_Producto,Precio_Producto)"
+	                		+ " VALUES('"+Nombre+"','"+Res2+"') ";
+
+	                sm.executeUpdate(DB);
+	                conexion.close();
+
+	            }catch (ClassNotFoundException a1) {
+	                a1.printStackTrace();
+
+	            }catch (SQLException a1) {
+	                a1.printStackTrace();
+	            }
+
+	            JOptionPane.showMessageDialog(btnCarritoM2, "Producto guardado en el Carrito");
+
+	             
+				
+			}
+			
+				
+			
+		});
+		btnCarritoM2.setBounds(197, 42, 137, 33);
+		panel_1.add(btnCarritoM2);
+		
+		JSpinner SPINgrueso = new JSpinner();
+		SPINgrueso.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int Num= 270;
+	            int sp = (int) SPINgrueso.getValue();
+	            int Res=270*sp;
+
+	            String resu = String.valueOf(Res);
+
+	            lblGrueso1.setText("Precio: "+ resu);
+	            
+	            
+	            JSpinner SPINnormal = new JSpinner();
+	    		SPINnormal.addChangeListener(new ChangeListener() {
+	    			public void stateChanged(ChangeEvent e) {
+	    				int Num= 300;
+	    	            int sp = (int) SPINnormal.getValue();
+	    	            int Res=300*sp;
+
+	    	            String resu = String.valueOf(Res);
+
+	    	            lblNormal1.setText("Precio: "+ resu);
+	    			}
+	    		});
+	    		SPINnormal.setBounds(130, 25, 30, 20);
+	    		panel_1.add(SPINnormal);
+	            
+			}
+		});
+		SPINgrueso.setBounds(117, 25, 48, 20);
+		panel.add(SPINgrueso);
+		
+		JButton btnCarritoM1 = new JButton("Agregar al Carrito");
+		btnCarritoM1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int Num2= 270;
+	            int sp2 = (int) SPINgrueso.getValue();
+	            int Res2=270*sp2;
+			   String Nombre="Mortero Grueso";
+				
+				try {
+	                Class.forName("com.mysql.jdbc.Driver");
+	                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+
+	                Statement sm = (Statement) conexion.createStatement();
+
+	                String DB = "INSERT INTO productos(Nombre_Producto,Precio_Producto)"
+	                		+ " VALUES('"+Nombre+"','"+Res2+"') ";
+
+	                sm.executeUpdate(DB);
+	                conexion.close();
+
+	            }catch (ClassNotFoundException a1) {
+	                a1.printStackTrace();
+
+	            }catch (SQLException a1) {
+	                a1.printStackTrace();
+	            }
+
+	            JOptionPane.showMessageDialog(btnCarritoM1, "Producto guardado en el Carrito");
+
+	             
+				
+			}
+			
+		});
+		btnCarritoM1.setBounds(197, 39, 137, 33);
+		panel.add(btnCarritoM1);
+		
+		JSpinner SPINfino = new JSpinner();
+		SPINfino.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int Num= 300;
+	            int sp = (int) SPINfino.getValue();
+	            int Res=300*sp;
+
+	            String resu = String.valueOf(Res);
+
+	            lblFino1.setText("Precio: "+ resu);
+			}
+		});
+		SPINfino.setBounds(121, 29, 51, 20);
+		panel_1_1.add(SPINfino);
+		
+		JButton btnCarritoM3 = new JButton("Agregar al Carrito");
+		btnCarritoM3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int Num2= 330;
+	            int sp2 = (int) SPINfino.getValue();
+	            int Res2=330*sp2;
+			   String Nombre="Mortero Fino";
+				
+				try {
+	                Class.forName("com.mysql.jdbc.Driver");
+	                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/almacon1","root","");
+
+	                Statement sm = (Statement) conexion.createStatement();
+
+	                String DB = "INSERT INTO productos(Nombre_Producto,Precio_Producto)"
+	                		+ " VALUES('"+Nombre+"','"+Res2+"') ";
+
+	                sm.executeUpdate(DB);
+	                conexion.close();
+
+	            }catch (ClassNotFoundException a1) {
+	                a1.printStackTrace();
+
+	            }catch (SQLException a1) {
+	                a1.printStackTrace();
+	            }
+
+	            JOptionPane.showMessageDialog(btnCarritoM3, "Producto guardado en el Carrito");
+
+	             
+				
+			
+			}
+		});
+		btnCarritoM3.setBounds(197, 39, 137, 33);
+		panel_1_1.add(btnCarritoM3);
+		
+		JButton btnRegresar = new JButton("Regresar");
+		btnRegresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VenMortero.this.dispose();
+	            setVisible(false);
+
+			}
+		});
+		btnRegresar.setBounds(109, 299, 137, 33);
+		contentPane.add(btnRegresar);
+	}
+}
+
