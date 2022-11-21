@@ -1,0 +1,7 @@
+Instrucciones para el uso:
+
+1.Descargar y ejecutar en XAMPP las opciones Apache y MYSQL 
+
+2.Utilizar el archivo SQL en MYPHPADMIN , los links y Localhost (http://localhost/phpmyadmin/) a utilizar estan dentro , crear base de Datos co el Nombre "Almacon1" y exportar el archivo .SQL.
+
+3.Consultar Creedenciales Validas en la pagina para lograr el acceso.
